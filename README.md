@@ -45,26 +45,3 @@ The Python helper honors the following environment variables (surfaced via the T
 - `FLEXLM_HOST_TAG` (optional): override the `host` tag emitted into line protocol.
 
 Adjust the `environment` array in `matlab_flexlm.conf` to set these values. You can also tag the metrics via `[inputs.exec.tags]`.
-
-## Validation
-
-- Manual run (bypassing Telegraf):
-
-  ```bash
-  LMUTIL=/usr/local/matlab/etc/glnxa64/lmutil LICENSE_SPEC=27000@mylicserver ./matlab_flexlm_telegraf.py
-  ```
-
-  Successful output appears as InfluxDB line protocol records.
-
-- After deployment, confirm Telegraf is calling the helper:
-
-  ```bash
-  sudo journalctl -u telegraf -f
-  ```
-
-  Look for any exec input errors referencing `matlab_flexlm`.
-
-## Troubleshooting
-
-- If you see `__ERROR__` metrics, verify connectivity to the license server (`telnet <host> <port>`), ensure the `lmutil` binary matches your FlexLM version, and confirm the Telegraf service account can execute the script.
-- Use `sudo -u telegraf env -i ...` to mirror Telegraf's execution environment when debugging permissions or missing binaries.
